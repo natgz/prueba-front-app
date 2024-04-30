@@ -1,3 +1,11 @@
+
+Run before starting:
+```bash
+  npm i -D vuetify vite-plugin-vuetify
+  
+  npm i @mdi/font
+```
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.

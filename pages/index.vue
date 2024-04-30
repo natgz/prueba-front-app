@@ -4,142 +4,34 @@
   </div>
 
   <v-row >
-    <Card v-for="product in products" :key="product.id"/>
+    <Card v-for="product in products" 
+      :product="product" 
+      :key="product.id"/>
   </v-row >
 </template>
 
 <script>
+import axios from 'axios'
+
   export default {
     data() {
       return {
-        products: [
-          {
-            id: 1,
-            name: 'Product 1',
-            price: 100,
-            description: 'This is a product description',
-            image: '/product-1.jpg'
-          },
-          {
-            id: 2,
-            name: 'Product 2',
-            price: 200,
-            description: 'This is a product description',
-            image: '/product-2.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          },
-          {
-            id: 3,
-            name: 'Product 3',
-            price: 300,
-            description: 'This is a product description',
-            image: '/product-3.jpg'
-          }
-        ]
+        products: [],
+        token: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJqNENWdUR6R0RpQTJzeHUwWVlPW W5kaUU0WGtvbnNGYiIsImlhdCI6MTY3NDU4NjI5OTUyN30.W01xe4zYHPf8-n8KlW_OnPe8anXZ FzNPLIHHmmYTsDCBIeVqTYhbbYxHvRW3HTrN3nnwD9CSvbnFpvC_655UAQ",
+      }
+    },
+    created() {
+      this.getProductos()
+    },
+    methods: {
+      getProductos() {
+        axios
+          .get('https://eshop-deve.herokuapp.com/api/v2/products', {
+            headers: {
+              Authorization: `Bearer ${this.token}`
+            }
+          })
+          .then(response => (this.products = response.data.products))
       }
     }
   }

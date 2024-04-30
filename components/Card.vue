@@ -1,30 +1,55 @@
 <template>
-  <v-col cols="12" md="3">
+  <v-col cols="12" md="3" sm="6">
     <v-card
       max-width="344"
       hover
     >
       <v-card-item>
-        <v-img
-          src="/product-example.jpg"
+        <v-img class="img-card"
+          :src="imageUrl"
   
         ></v-img>
         <v-card-title>
-          Card title
+          {{ this.product.name }}
         </v-card-title>
   
         <v-card-subtitle>
-          Card subtitle secondary text
+          {{ this.product.price  }}
         </v-card-subtitle>
       </v-card-item>
   
       <v-card-text>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat elit vitae enim lacinia semper. Cras nulla lectus, porttitor vitae urna iaculis, ultrices ultrices purus. Integer nec turpis et eros fringilla luctus. Nullam nec turpis sit amet metus tincidunt aliquam
+        {{ this.product.description }}
       </v-card-text>
       
-      <v-card-item>
-        <v-btn text="Agregar a carrito"></v-btn>
+      <v-card-item class="add-cart">
+        <v-btn variant="outlined" text="Agregar a carrito"></v-btn>
       </v-card-item>
     </v-card>
   </v-col>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      imageUrl: this.product.images[0].url,
+    }
+  },
+  props: ['product'],
+}
+
+</script>
+
+<style>
+  .add-cart {
+    justify-content: center;
+    height: fit-content;
+  }
+
+  .img-card {
+    height: 300px;
+    object-fit: cover;
+  }
+
+</style>
