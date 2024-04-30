@@ -1,14 +1,10 @@
 <template>
-  <!-- navbar start -->
   <v-app-bar>
-    <!-- toggle button for the drawer -->
     <v-btn icon @click="drawer = !drawer">
       <v-icon>mdi-cart-outline</v-icon>
     </v-btn>
-    <v-toolbar-title>My App</v-toolbar-title>
+    <v-toolbar-title @click="backHome()">My App</v-toolbar-title>
   </v-app-bar>
-
-  <!-- drawer -->
   <v-navigation-drawer v-model="drawer" app>
     <v-list>
       <v-list-item>
@@ -21,18 +17,52 @@
         <v-list-item-title>Contact</v-list-item-title>
       </v-list-item>
     </v-list>
+
+    <Carrito
+      :products="productsCarrito"
+      @delete="deleteProductoCarrito" />
   </v-navigation-drawer>
-  <!-- navbar end -->
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      drawer: false // State to control the visibility of the drawer
-    };
-  }
-};
+  import Carrito from './Carrito.vue';
+  import { snackbarStore } from "../stores/snackbar";
+  const snackStore = snackbarStore();
+
+  export default {
+    components: {
+      Carrito
+    },
+    data() {
+      return {
+        drawer: false,
+        productsCarrito: []
+      };
+    },
+    watch: {
+      drawer(open) {
+        if (open) {
+          this.productsCarrito = JSON.parse(localStorage.getItem('carrito')) || []
+        }
+      }
+    },
+    methods: {
+      deleteProductoCarrito(id) {
+        console.log('test1')
+        this.productsCarrito = this.productsCarrito.filter(product => product.id !== id)
+        console.log('test2')
+        localStorage.setItem('carrito', JSON.stringify(this.productsCarrito))
+
+        snackStore.setSnackbar({
+          show: true,
+          message: 'Producto eliminado del carrito'
+        });
+      },
+      backHome() {
+        this.$router.push('/')
+      }
+    }
+  };
 </script>
 
 <style>

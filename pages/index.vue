@@ -1,17 +1,20 @@
 <template>
   <div>
-    <img src="/online-shop-banner.jpg" alt="banner" class="w-full" />
-  </div>
+    <div>
+      <img src="/online-shop-banner.jpg" alt="banner" class="w-full" />
+    </div>
 
-  <v-row >
-    <Card v-for="product in products" 
-      :product="product" 
-      :key="product.id"/>
-  </v-row >
+    <v-row >
+      <Card v-for="product in products" 
+        :product="product" 
+        :key="product.id"
+        @click="openDetail(product.id)"/>
+    </v-row >
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+  import axios from 'axios'
 
   export default {
     data() {
@@ -24,14 +27,27 @@ import axios from 'axios'
       this.getProductos()
     },
     methods: {
-      getProductos() {
-        axios
-          .get('https://eshop-deve.herokuapp.com/api/v2/products', {
-            headers: {
-              Authorization: `Bearer ${this.token}`
-            }
-          })
-          .then(response => (this.products = response.data.products))
+      async getProductos() {
+        const url = 'https://eshop-deve.herokuapp.com/api/v2/products'
+        
+        const { data, error } = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          }
+        })
+
+        console.log(data)
+
+        this.products = data.products
+
+        if (!error) {
+          this.products = data.products
+        } else { 
+          throw new Error('Error al cargar productos')
+        }
+      },
+      openDetail(id) {
+        this.$router.push(`/detail/${id}`)
       }
     }
   }

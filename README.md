@@ -4,6 +4,10 @@ Run before starting:
   npm i -D vuetify vite-plugin-vuetify
   
   npm i @mdi/font
+
+  npm install axios
+
+  # npm install vue-router@4
 ```
 
 # Nuxt 3 Minimal Starter
