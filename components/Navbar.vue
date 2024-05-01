@@ -1,24 +1,27 @@
 <template>
-  <v-app-bar>
-    <v-btn icon @click="drawer = !drawer">
-      <v-icon>mdi-cart-outline</v-icon>
-    </v-btn>
-    <v-toolbar-title @click="backHome()">My App</v-toolbar-title>
+  <v-app-bar color="teal">
+    <template v-slot:append>
+      <v-btn 
+        icon @click="drawer = !drawer">
+        <v-icon>mdi-cart-outline</v-icon>
+      </v-btn>
+    </template>
+    <v-toolbar-title class="my-shop" @click="backHome()">My Shop</v-toolbar-title>
   </v-app-bar>
-  <v-navigation-drawer v-model="drawer" app>
+
+  <v-navigation-drawer
+    color="teal-lighten-5"
+    location="right" 
+    v-model="drawer" 
+    temporary >
     <v-list>
-      <v-list-item>
-        <v-list-item-title>Home</v-list-item-title>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>About</v-list-item-title>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Contact</v-list-item-title>
+      <v-list-item class="carrito-title">
+        <h2>Tu Carrito</h2>
+        <v-divider :thickness="3"></v-divider>
       </v-list-item>
     </v-list>
-
-    <Carrito
+    <Carrito 
+      class="carrito"
       :products="productsCarrito"
       @delete="deleteProductoCarrito" />
   </v-navigation-drawer>
@@ -48,9 +51,7 @@
     },
     methods: {
       deleteProductoCarrito(id) {
-        console.log('test1')
         this.productsCarrito = this.productsCarrito.filter(product => product.id !== id)
-        console.log('test2')
         localStorage.setItem('carrito', JSON.stringify(this.productsCarrito))
 
         snackStore.setSnackbar({
@@ -66,5 +67,17 @@
 </script>
 
 <style>
-/* Add any custom styles here */
+  .carrito {
+    padding: 20px;
+    margin-bottom: 60px;
+  }
+
+  .carrito-title h2 {
+    font-size: 30px;
+    font-weight: normal;
+  }
+
+  .my-shop {
+    cursor: pointer;
+  }
 </style>

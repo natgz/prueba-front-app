@@ -1,34 +1,50 @@
 <template>
-   <v-container class="bg-surface-variant">
-    <v-row v-if="!isLoading" no-gutters>
-      <v-col>
-        <v-sheet class="ma-2 pa-2">
-          <v-img :src="product.imageUrl"></v-img>
-        </v-sheet>
+  <v-sheet class="sheet-product"
+  :max-width="1000"
+  border
+  rounded
+  >
+    <v-row 
+    class="product-row" 
+    v-if="!isLoading">
+      <v-col
+        cols="12"
+        md="6"
+        sm="12"
+        :key="4">
+        <v-img class="img-side" :src="product.imageUrl"></v-img>
       </v-col>
-      <v-col>
-        <v-sheet class="ma-2 pa-2">
-          <v-title>
-            {{ product.name }}
-          </v-title>
-          <v-subtitle>
-            {{ product.price }}
-          </v-subtitle>
-          <v-text>
-            {{ product.description }}
-          </v-text>
-          <v-btn>
-            <v-btn variant="outlined" text="Agregar a carrito"></v-btn>
-          </v-btn>
-        </v-sheet>
+      <v-col 
+        cols="12"
+        md="6"
+        sm="12"
+        class="product-side">
+        <v-list class="product-info">
+          <v-list-item>
+            <h2>
+              {{ product.name }}
+            </h2>
+          </v-list-item>
+          <v-list-item>
+            <h3>
+              ${{ product.price }}
+            </h3>
+          </v-list-item>
+          <v-list-item>
+            <p>
+              {{ product.description }}
+            </p>
+          </v-list-item>
+          <v-btn class="" variant="outlined" text="Agregar a carrito"></v-btn>
+        </v-list>
       </v-col>
     </v-row>
     <v-row v-else>
-      <v-col>
+      <v-col class="loader-info">
         <v-progress-circular indeterminate></v-progress-circular>
       </v-col>
     </v-row>
-  </v-container> 
+  </v-sheet>
 </template>
 
 <script>
@@ -70,20 +86,34 @@
 </script>
 
 <style>
-main {
-  .product-detail {
-    display: grid;
+  .loader-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
-
+  .sheet-product {
+    margin: auto;
+  }
+  .v-main {
+    align-content: center;
+  }
   .img-side {
-    position: relative;
     padding: 30px;
-    align-items: left;
-    justify-content: left;
-    flex: 1 1 200px;
-    gap: 20px;
+    max-height: 100%;
+    max-width: 100%;
+
+    @media screen and (max-width: 960px){
+      margin: 20px 150px 0px 150px;
+    }
+
   }
 
+  .product-row {
+    background-color: #ffffff;
+  }
+
+main {
   .product-info {
     display: flex;
     flex-direction: column;
@@ -91,11 +121,16 @@ main {
     justify-content: center;
     flex: 1 1 200px;
     gap: 20px;
+    border-radius: 20px;
+  }
 
-    product-btn {
-      width: 50%;
-      padding: 10px 40px;
-      cursor: pointer;
+  .product-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 960px){
+      margin: 0px 0px 20px 0px;
     }
   }
 }

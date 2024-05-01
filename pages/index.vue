@@ -4,7 +4,7 @@
       <img src="/online-shop-banner.jpg" alt="banner" class="w-full" />
     </div>
 
-    <v-row >
+    <v-row dense class="row-products">
       <Card v-for="product in products" 
         :product="product" 
         :key="product.id"
@@ -54,11 +54,8 @@
 </script>
 
 <style>
-  /* main {
-    .product-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-  } */
+  .row-products {
+    justify-content: center;
+    margin: 30px;
+  }
 </style>

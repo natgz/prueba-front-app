@@ -1,6 +1,6 @@
 <template>
 
-  <v-footer class="bg-grey-lighten-1">
+  <v-footer class="bg-teal-darken-3">
     <v-row justify="center" no-gutters>
       <v-btn
         v-for="link in links"
@@ -13,7 +13,7 @@
         {{ link }}
       </v-btn>
       <v-col class="text-center" cols="12">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        {{ new Date().getFullYear() }} — <strong>My Shop</strong>
       </v-col>
     </v-row>
   </v-footer>
@@ -24,12 +24,10 @@
   export default {
     data: () => ({
       links: [
-        'Home',
-        'About Us',
-        'Team',
-        'Services',
-        'Blog',
-        'Contact Us',
+        'Homepage',
+        'Carrito',
+        'Servicios',
+        'Contactanos',
       ],
     }),
   }

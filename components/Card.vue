@@ -1,26 +1,26 @@
 <template>
-  <v-col cols="12" md="3" sm="6">
+  <v-col cols="12" lg="3" md="4" sm="6" xs="12">
     <v-card
-      max-width="344"
+      min-height="500"
       hover
     >
-      <v-card-item>
+      <v-card-item class="card-item">
         <v-img class="img-card"
           :src="imageUrl"
-  
         ></v-img>
+        <br>
         <v-card-title>
           {{ product.name }}
         </v-card-title>
-  
+
         <v-card-subtitle>
-          {{ product.price  }}
+          ${{ product.price  }}
         </v-card-subtitle>
+    
+        <v-card-text>
+          {{ product.description }}
+        </v-card-text>
       </v-card-item>
-  
-      <v-card-text>
-        {{ product.description }}
-      </v-card-text>
       
       <v-card-item class="add-cart">
         <v-btn
@@ -70,11 +70,17 @@ export default {
   .add-cart {
     justify-content: center;
     height: fit-content;
+    bottom: 0;
   }
 
   .img-card {
-    height: 300px;
+    height: 250px;
+    width: 100%;
     object-fit: cover;
+  }
+
+  .card-item {
+    text-align: center;
   }
 
 </style>

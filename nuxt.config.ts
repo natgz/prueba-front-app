@@ -14,6 +14,12 @@ export default defineNuxtConfig({
       })
     },
     '@pinia/nuxt',
+    ['@nuxtjs/google-fonts', {
+      families: {
+        Roboto: true,
+        Lato: [100, 300],
+      }
+    }],
   ],
   vite: {
     vue: {
