@@ -1,4 +1,5 @@
 <template>
+
   <v-app>
     <Navbar />
     <v-main>
@@ -6,9 +7,7 @@
     </v-main>
     <Footer />
     <div v-if="snackbar?.show" class="text-center ma-2">
-      <v-snackbar
-        v-model="snackbar"
-      >
+      <v-snackbar v-model="snackbar">
         {{ snackbar?.message }}
 
         <template v-slot:actions>
@@ -23,6 +22,7 @@
       </v-snackbar>
     </div>
   </v-app>
+  
 </template>
 
 <script>

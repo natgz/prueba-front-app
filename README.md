@@ -1,5 +1,5 @@
 
-Run before starting:
+installed:
 ```bash
   npm i -D vuetify vite-plugin-vuetify
   
@@ -7,7 +7,7 @@ Run before starting:
 
   npm install axios
 
-  # npm install vue-router@4
+  npm install pinia
 ```
 
 # Nuxt 3 Minimal Starter

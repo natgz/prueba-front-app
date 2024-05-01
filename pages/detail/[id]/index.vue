@@ -1,25 +1,18 @@
 <template>
+
   <v-sheet class="sheet-product"
-  :max-width="1000"
-  border
-  rounded
+    :max-width="1000"
+    border
+    rounded
   >
     <v-row 
     class="product-row" 
     v-if="!isLoading">
-      <v-col
-        cols="12"
-        md="6"
-        sm="12"
-        :key="4">
-        <v-img class="img-side" :src="product.imageUrl"></v-img>
+      <v-col cols="12" md="6" sm="12" :key="4">
+        <v-img class="img-side elevation-10" :src="product.imageUrl"/>
       </v-col>
-      <v-col 
-        cols="12"
-        md="6"
-        sm="12"
-        class="product-side">
-        <v-list class="product-info">
+      <v-col cols="12" md="6" sm="12" class="product-side">
+        <v-list class="product-info elevation-5">
           <v-list-item>
             <h2>
               {{ product.name }}
@@ -27,15 +20,20 @@
           </v-list-item>
           <v-list-item>
             <h3>
-              ${{ product.price }}
+            Precio: ${{ product.price }}
             </h3>
           </v-list-item>
           <v-list-item>
             <p>
-              {{ product.description }}
+              {{ product.description || 'No hay descripción'}}
             </p>
           </v-list-item>
-          <v-btn class="" variant="outlined" text="Agregar a carrito"></v-btn>
+          <v-btn 
+            class=""
+            variant="tonal"
+            color="#009688"
+            text="Agregar a carrito"
+            @click="agregarCarrito" />
         </v-list>
       </v-col>
     </v-row>
@@ -45,11 +43,12 @@
       </v-col>
     </v-row>
   </v-sheet>
+
 </template>
 
 <script>
   import axios from 'axios'
-
+  import { snackbarStore } from "../stores/snackbar";
   export default {
     data() {
       return {
@@ -63,6 +62,37 @@
       this.getProductos(id)
     },
     methods: {
+      agregarCarrito(e) {
+        e.stopPropagation();
+
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || []
+
+        const exist = carrito.find(item => item.id === this.product.id)
+        if (exist) {
+          exist.quantity++
+          localStorage.setItem('carrito', JSON.stringify(carrito))
+          const snackbar = snackbarStore();
+          snackbar.setSnackbar({
+            show: true,
+            message: 'Producto agregado al carrito'
+          });
+        } else {
+          carrito.push({
+            id: this.product.id,
+            name: this.product.name,
+            price: this.product.price,
+            imageUrl: this.product.imageUrl,
+            quantity: 1
+          });
+        }
+
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+        const snackbar = snackbarStore();
+        snackbar.setSnackbar({
+          show: true,
+          message: 'Producto agregado al carrito'
+        });
+      },
       async getProductos(id) {
         const url = `https://eshop-deve.herokuapp.com/api/v2/products/${id}`
         
@@ -71,8 +101,6 @@
             Authorization: `Bearer ${this.token}`
           }
         })
-
-        console.log(data)
 
         if (!error) {
           this.product = data.product
@@ -92,12 +120,15 @@
     align-items: center;
     height: 100%;
   }
+
   .sheet-product {
     margin: auto;
   }
+
   .v-main {
     align-content: center;
   }
+
   .img-side {
     padding: 30px;
     max-height: 100%;
@@ -106,7 +137,6 @@
     @media screen and (max-width: 960px){
       margin: 20px 150px 0px 150px;
     }
-
   }
 
   .product-row {
@@ -122,6 +152,7 @@ main {
     flex: 1 1 200px;
     gap: 20px;
     border-radius: 20px;
+    margin: 20px 20px;
   }
 
   .product-side {

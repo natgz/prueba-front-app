@@ -1,9 +1,9 @@
 <template>
+
   <div>
     <div>
       <img src="/online-shop-banner.jpg" alt="banner" class="w-full" />
     </div>
-
     <v-row dense class="row-products">
       <Card v-for="product in products" 
         :product="product" 
@@ -11,11 +11,11 @@
         @click="openDetail(product.id)"/>
     </v-row >
   </div>
+
 </template>
 
 <script>
   import axios from 'axios'
-
   export default {
     data() {
       return {
@@ -29,14 +29,11 @@
     methods: {
       async getProductos() {
         const url = 'https://eshop-deve.herokuapp.com/api/v2/products'
-        
         const { data, error } = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${this.token}`
           }
         })
-
-        console.log(data)
 
         this.products = data.products
 
@@ -57,5 +54,30 @@
   .row-products {
     justify-content: center;
     margin: 30px;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  body::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: #f3f3f3;
+    border-radius: 5px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: #eab569;
+    border-radius: 5px;
+    border: 2px solid #f3f3f3;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    body {
+        scrollbar-color: #eab569 #f3f3f3;
+    }
   }
 </style>

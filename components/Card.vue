@@ -1,76 +1,86 @@
 <template>
   <v-col cols="12" lg="3" md="4" sm="6" xs="12">
-    <v-card
-      min-height="500"
-      hover
-    >
+    <v-card min-height="500" hover >
+
       <v-card-item class="card-item">
-        <v-img class="img-card"
-          :src="imageUrl"
-        ></v-img>
+        <v-img class="img-card" :src="imageUrl" ></v-img>
         <br>
         <v-card-title>
           {{ product.name }}
         </v-card-title>
-
         <v-card-subtitle>
-          ${{ product.price  }}
+          Precio: ${{ product.price  }}
         </v-card-subtitle>
-    
         <v-card-text>
-          {{ product.description }}
+          {{ product.description || 'No hay descripción'}}
         </v-card-text>
       </v-card-item>
       
       <v-card-item class="add-cart">
         <v-btn
-          variant="outlined"
+          variant="tonal"
+          color="#009688"
           text="Agregar a carrito"
           @click="agregarCarrito" />
       </v-card-item>
+
     </v-card>
   </v-col>
 </template>
 
 <script>
-import { snackbarStore } from "../stores/snackbar";
+  import { snackbarStore } from "../stores/snackbar";
+  export default {
+    data() {
+      return {
+        imageUrl: this.product.images[0].url,
+      }
+    },
+    props: {
+      product: {
+        type: Object,
+        required: true
+      },
+    },
+    methods: {
+      agregarCarrito(e) {
+        e.stopPropagation();
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || []
+        const exist = carrito.find(item => item.id === this.product.id)
 
-export default {
-  data() {
-    return {
-      imageUrl: this.product.images[0].url,
+        if (exist) {
+          exist.quantity++
+          localStorage.setItem('carrito', JSON.stringify(carrito))
+          const snackbar = snackbarStore();
+          snackbar.setSnackbar({
+            show: true,
+            message: 'Producto agregado al carrito'
+          });
+        } else {
+          carrito.push({
+            id: this.product.id,
+            name: this.product.name,
+            price: this.product.price,
+            imageUrl: this.product.imageUrl,
+            quantity: 1
+          });
+        }
+
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+        const snackbar = snackbarStore();
+        snackbar.setSnackbar({
+          show: true,
+          message: 'Producto agregado al carrito'
+        });
+      },
     }
-  },
-  props: {
-    product: {
-      type: Object,
-      required: true
-    },
-  },
-  methods: {
-    agregarCarrito(e) {
-      e.stopPropagation();
-
-      let carrito = JSON.parse(localStorage.getItem('carrito')) || []
-      carrito.push(this.product)
-      localStorage.setItem('carrito', JSON.stringify(carrito))
-
-      const snackbar = snackbarStore();
-      snackbar.setSnackbar({
-        show: true,
-        message: 'Producto agregado al carrito'
-      });
-    },
-
   }
-}
 </script>
 
 <style>
   .add-cart {
     justify-content: center;
     height: fit-content;
-    bottom: 0;
   }
 
   .img-card {
